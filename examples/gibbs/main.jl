@@ -102,4 +102,9 @@ function main()
     mcmctest(test, TestSubject(model, GibbsRandScan())) |> display
     mcmctest(test, TestSubject(model, GibbsRandScanWrongMean())) |> display
     mcmctest(test, TestSubject(model, GibbsRandScanWrongVar())) |> display
+
+    test  = TwoSampleGibbsTest(100, 100, 100)
+    seqmcmctest(test, TestSubject(model, GibbsRandScan()),          0.001, 32) |> display
+    seqmcmctest(test, TestSubject(model, GibbsRandScanWrongMean()), 0.001, 32) |> display
+    seqmcmctest(test, TestSubject(model, GibbsRandScanWrongVar()),  0.001, 32) |> display
 end

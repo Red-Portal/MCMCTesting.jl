@@ -9,11 +9,13 @@ export
     sample_predictive,
     sample_joint,
     sample_markov_chain,
-    mcmctest
+    mcmctest,
+    seqmcmctest
 
 using Random
 using HypothesisTests
 using ProgressMeter
+using MultipleTesting
 
 function sample_joint            end
 function sample_predictive       end
@@ -25,6 +27,9 @@ struct TestSubject{M, K}
     kernel::K
 end
 
+abstract type AbstractMCMCTest end
+
 include("twosample.jl")
+include("seqtest.jl")
 
 end

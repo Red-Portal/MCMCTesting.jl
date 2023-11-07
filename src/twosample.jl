@@ -8,13 +8,13 @@ function markovchain_multiple_transition(
     θ
 end
 
-struct TwoSampleTest
+struct TwoSampleTest <: AbstractMCMCTest
     n_control   ::Int
     n_treatment ::Int
     n_mcmc_steps::Int
 end
 
-struct TwoSampleGibbsTest
+struct TwoSampleGibbsTest <: AbstractMCMCTest
     n_control   ::Int
     n_treatment ::Int
     n_mcmc_steps::Int
