@@ -8,10 +8,12 @@ export
     ExactRankTest,
     sample_predictive,
     sample_joint,
-    sample_markov_chain,
+    markovchain_transition,
     mcmctest,
-    seqmcmctest
+    seqmcmctest,
+    simulate_ranks
 
+using StatsBase
 using Random
 using HypothesisTests
 using ProgressMeter
@@ -29,7 +31,18 @@ end
 
 abstract type AbstractMCMCTest end
 
-include("twosample.jl")
+function markovchain_multiple_transition(
+    rng::Random.AbstractRNG, model, kernel, n_steps::Int, θ, y
+)
+    for _ = 1:n_steps
+        θ = markovchain_transition(rng, model, kernel, θ, y)
+    end
+    θ
+end
+
+include("defaults.jl")
+include("twosampletest.jl")
+include("exactranktest.jl")
 include("seqtest.jl")
 
 end
