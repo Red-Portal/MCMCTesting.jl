@@ -1,5 +1,6 @@
 
 function seqmcmctest(
+    rng                 ::Random.AbstractRNG,
     test                ::AbstractMCMCTest,
     subject             ::TestSubject,
     false_rejection_rate::Real,
@@ -8,7 +9,8 @@ function seqmcmctest(
     samplesize_increase ::Real = 2.;
     show_progress = true,
     pvalue_adjustment::MultipleTesting.PValueAdjustment = MultipleTesting.Bonferroni(),
-    kwargs...)
+    kwargs...
+)
     α  = false_rejection_rate
     k  = max_iter
     β  = α / k
@@ -23,7 +25,7 @@ function seqmcmctest(
             enabled   = show_progress
         )
         pvals_all = mapreduce(hcat, 1:samplesize) do n
-            pval = mcmctest(test, subject; kwargs...)
+            pval = mcmctest(rng, test, subject; kwargs...)
             next!(prog,
                   showvalues = [
                       (:test_iteration, i),
@@ -51,4 +53,20 @@ function seqmcmctest(
         end
     end
     true
+end
+
+function seqmcmctest(
+    test                ::AbstractMCMCTest,
+    subject             ::TestSubject,
+    false_rejection_rate::Real,
+    samplesize          ::Int,
+    max_iter            ::Real = 3,
+    samplesize_increase ::Real = 2.;
+    show_progress = true,
+    pvalue_adjustment::MultipleTesting.PValueAdjustment = MultipleTesting.Bonferroni(),
+    kwargs...
+)
+    seqmcmctest(Random.default_rng(), test, subject, false_rejection_rate,
+                samplesize, max_iter, samplesize_increase;
+                show_progress, pvalue_adjustment, kwargs...)
 end
