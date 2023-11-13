@@ -77,7 +77,7 @@ function simulate_ranks(
     )
 
     mapreduce(hcat, 1:n_samples) do n
-        next!(prog, showvalues=[(:control_group, "$(n)/$(n_samples)")])
+        next!(prog, showvalues=[(:sampled_pvalues, "$(n)/$(n_samples)")])
         simulate_rank(rng, test, subject, statistics)
     end
 end
