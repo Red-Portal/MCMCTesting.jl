@@ -53,13 +53,13 @@ function simulate_rank(
         θ_bwd = markovchain_multiple_transition(
             rng, model, kernel, n_mcmc_thin, θ_bwd, y
         )
-        rank_wins += statistics(θ_bwd) .< (stat_mid .- tie_epsilon) 
+        rank_wins += statistics(θ_bwd) .< stat_mid
         rank_ties += abs.(stat_mid - statistics(θ_bwd)) .≤ tie_epsilon
     end
 
     # Tie Resolution
     map(rank_wins, rank_ties) do rank_wins_param, rank_ties_param
-        rank_wins_param + sample(rng, 1:rank_ties_param+1)
+        rank_wins_param + sample(rng, 1:rank_ties_param+1) - 1
     end
 end
 
