@@ -21,6 +21,7 @@ function simulate_rank(
     test         ::ExactRankTest,
     subject      ::TestSubject,
     statistics,
+    tie_epsilon
 )
     model        = subject.model
     kernel       = subject.kernel
@@ -31,9 +32,10 @@ function simulate_rank(
     n_mcmc_fwd = n_mcmc_steps - idx_mid
     n_mcmc_bwd = idx_mid - 1
 
-    θ_mid, y = sample_joint(rng, model)
-    stat_mid = statistics(θ_mid)
-    ranks    = ones(Int, length(stat_mid))
+    θ_mid, y  = sample_joint(rng, model)
+    stat_mid  = statistics(θ_mid)
+    rank_wins = ones( Int, length(stat_mid))
+    rank_ties = zeros(Int, length(stat_mid))
 
     # Forward Transitions
     θ_fwd  = copy(θ_mid)
@@ -41,7 +43,8 @@ function simulate_rank(
         θ_fwd = markovchain_multiple_transition(
             rng, model, kernel, n_mcmc_thin, θ_fwd, y
         )
-        ranks += stat_mid .> statistics(θ_fwd) 
+        rank_wins += statistics(θ_fwd) .< (stat_mid .- tie_epsilon) 
+        rank_ties += abs.(stat_mid - statistics(θ_fwd)) .≤ tie_epsilon
     end
 
     # Backward Transition
@@ -50,9 +53,14 @@ function simulate_rank(
         θ_bwd = markovchain_multiple_transition(
             rng, model, kernel, n_mcmc_thin, θ_bwd, y
         )
-        ranks += stat_mid .> statistics(θ_bwd) 
+        rank_wins += statistics(θ_bwd) .< (stat_mid .- tie_epsilon) 
+        rank_ties += abs.(stat_mid - statistics(θ_bwd)) .≤ tie_epsilon
     end
-    ranks
+
+    # Tie Resolution
+    map(rank_wins, rank_ties) do rank_wins_param, rank_ties_param
+        rank_wins_param + sample(rng, 1:rank_ties_param+1)
+    end
 end
 
 function compute_rank_count(ranks::AbstractVector{Int}, maxrank::Int)
@@ -69,6 +77,7 @@ function simulate_ranks(
     subject      ::TestSubject;
     statistics          = default_statistics,
     show_progress::Bool = true,
+    tie_epsilon         = eps(Float64)
 )
     n_samples    = test.n_samples
 
@@ -78,7 +87,7 @@ function simulate_ranks(
 
     mapreduce(hcat, 1:n_samples) do n
         next!(prog, showvalues=[(:simulated_ranks, "$(n)/$(n_samples)")])
-        simulate_rank(rng, test, subject, statistics)
+        simulate_rank(rng, test, subject, statistics, tie_epsilon)
     end
 end
 
