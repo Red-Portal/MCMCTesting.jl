@@ -17,29 +17,26 @@ include("models/normalnormalgibbs.jl")
     n_dim_param = 2
     n_dim_data  = 1
 
-    @testset for test in [TwoSampleTest(n_samples, n_samples),
-                          TwoSampleGibbsTest(n_samples, n_samples)]
+    @testset for test in [
+        TwoSampleTest(n_samples, n_samples),
+        TwoSampleGibbsTest(n_samples, n_samples),
+        ExactRankTest(n_samples, n_samples)
+    ]
+        n_dim_default = if test isa TwoSampleTest || test isa TwoSampleGibbsTest
+            (n_dim_param + n_dim_data)*2
+        else
+            n_dim_param*2
+        end
+
         @testset "mcmctest" begin
             @testset "return type" begin
                 pvalue = mcmctest(test, subject; show_progress=false)
                 @test eltype(pvalue) <: Real
-
-                n_dim_default = if test isa TwoSampleTest
-                    (n_dim_param + n_dim_data)*2
-                else
-                    n_dim_param*2
-                end
                 @test length(pvalue) == n_dim_default
             end
 
             @testset "custom statistics" begin
                 pvalue = mcmctest(test, subject; show_progress=false, statistics = θ -> θ)
-
-                n_dim_default = if test isa TwoSampleTest
-                    (n_dim_param + n_dim_data)*2
-                else
-                    n_dim_param*2
-                end
                 @test length(pvalue) == div(n_dim_default,2)
             end
         
