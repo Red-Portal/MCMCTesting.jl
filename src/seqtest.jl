@@ -25,7 +25,7 @@ function seqmcmctest(
             enabled   = show_progress
         )
         pvals_all = mapreduce(hcat, 1:samplesize) do n
-            pval = mcmctest(rng, test, subject; kwargs...)
+            pval = mcmctest(rng, test, subject; show_progress=false, kwargs...)
             next!(prog,
                   showvalues = [
                       (:test_iteration, i),

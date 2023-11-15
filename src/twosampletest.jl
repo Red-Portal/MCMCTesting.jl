@@ -59,8 +59,8 @@ function simulate_two_sample_groups(
     n_mcmc_steps = test.n_mcmc_steps
     n_mcmc_thin  = test.n_mcmc_thin
 
-    prog   = ProgressMeter.Progress(
-        n_ctrl + n_trtm; barlen = 31, showspeed = true, enabled = show_progress
+    prog = ProgressMeter.Progress(
+        n_trtm; barlen = 31, showspeed = true, enabled = show_progress
     )
 
     # Treatment Group
@@ -73,6 +73,9 @@ function simulate_two_sample_groups(
         vcat(θ_trtm, y)
     end
 
+    prog = ProgressMeter.Progress(
+        n_ctrl; barlen = 31, showspeed = true, enabled = show_progress
+    )
     # Control Group
     ctrl = map(1:n_ctrl) do n
         θ_ctrl, y = sample_joint(rng, model)
