@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Getting Started · MCMCTesting.jl</title><meta name="title" content="Getting Started · MCMCTesting.jl"/><meta property="og:title" content="Getting Started · MCMCTesting.jl"/><meta property="twitter:title" content="Getting Started · MCMCTesting.jl"/><meta name="description" content="Documentation for MCMCTesting.jl."/><meta property="og:description" content="Documentation for MCMCTesting.jl."/><meta property="twitter:description" content="Documentation for MCMCTesting.jl."/><meta property="og:url" content="https://Red-Portal.github.io/MCMCTesting.jl/example/"/><meta property="twitter:url" content="https://Red-Portal.github.io/MCMCTesting.jl/example/"/><link rel="canonical" href="https://Red-Portal.github.io/MCMCTesting.jl/example/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../introduction/">MCMCTesting.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../introduction/">MCMCTesting</a></li><li class="is-active"><a class="tocitem" href>Getting Started</a><ul class="internal"><li><a class="tocitem" href="#Problem-Setup"><span>Problem Setup</span></a></li><li><a class="tocitem" href="#Testing-the-Gibbs-Sampler"><span>Testing the Gibbs Sampler</span></a></li><li><a class="tocitem" href="#Visualizing-the-ranks"><span>Visualizing the ranks</span></a></li></ul></li><li><a class="tocitem" href="../general/">General Usage</a></li><li><a class="tocitem" href="../twosampletest/">Two-Sample Tests</a></li><li><a class="tocitem" href="../exactranktest/">Exact Rank Tests</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Getting Started</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Getting Started</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/Red-Portal/MCMCTesting.jl/blob/main/docs/src/example.md#" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="tutorial"><a class="docs-heading-anchor" href="#tutorial">Getting Started</a><a id="tutorial-1"></a><a class="docs-heading-anchor-permalink" href="#tutorial" title="Permalink"></a></h1><h2 id="Problem-Setup"><a class="docs-heading-anchor" href="#Problem-Setup">Problem Setup</a><a id="Problem-Setup-1"></a><a class="docs-heading-anchor-permalink" href="#Problem-Setup" title="Permalink"></a></h2><p>Let&#39;s consider a simple Normal-Normal model with a shared scale:</p><p class="math-container">\[\begin{aligned}
+\theta &amp;\sim \mathrm{normal}\left(0,   \sigma^2\right) \\
+y      &amp;\sim \mathrm{normal}\left(\mu, \sigma^2\right)
+\end{aligned}\]</p><p>The joint log-likelihood can be implemented as follows:</p><pre><code class="language-julia hljs">using Random
+using Distributions
+
+struct Model
+    σ::Float64
+    y::Float64
+end
+
+function logdensity(model::Model, θ)
+    σ, y = model.σ, model.y
+    logpdf(Normal(0, σ), only(θ)) + logpdf(Normal(0, σ), y)
+end
+nothing</code></pre><p>For sampling from the posterior, a simple Gibbs sampling strategy is possible:</p><pre><code class="language-julia hljs">struct Gibbs end
+
+function step(rng::Random.AbstractRNG, model::Model, ::Gibbs, θ)
+    y = model.y
+    σ = model.σ
+    rand(rng, MvNormal([y]/2, σ))
+end
+nothing</code></pre><p>We could also use the classic symmetric random walk Metropolis-Hastings sampler:</p><pre><code class="language-julia hljs">struct RWMH
+    σ::Float64
+end
+
+function step(rng::Random.AbstractRNG, model::Model, kernel::RWMH, θ)
+    σ = kernel.σ
+    θ′ = rand(rng, MvNormal(θ, σ))
+    ℓπ = logdensity(model, θ)
+    ℓπ′ = logdensity(model, θ′)
+    ℓα = ℓπ′ - ℓπ
+    if log(rand(rng)) ≤ ℓα
+        θ′
+    else
+        θ
+    end
+end
+nothing</code></pre><h2 id="Testing-the-Gibbs-Sampler"><a class="docs-heading-anchor" href="#Testing-the-Gibbs-Sampler">Testing the Gibbs Sampler</a><a id="Testing-the-Gibbs-Sampler-1"></a><a class="docs-heading-anchor-permalink" href="#Testing-the-Gibbs-Sampler" title="Permalink"></a></h2><p>All of the functionalities of <code>MCMCTesting</code> assume that we can sample from the joint distribution <span>$p(\theta, y)$</span>. This is done by as follows:</p><pre><code class="language-julia hljs">using MCMCTesting
+
+function MCMCTesting.sample_joint(rng::Random.AbstractRNG, model::Model)
+    σ = model.σ
+    θ = rand(rng, Normal(0, σ))
+    y = rand(rng, Normal(θ, σ))
+    [θ], [y]
+end
+nothing</code></pre><p>The Gibbs sampler can be connected to <code>MCMCTesting</code> by implementing the following:</p><pre><code class="language-julia hljs">using Accessors
+
+function MCMCTesting.markovchain_transition(
+    rng::Random.AbstractRNG, model::Model, kernel, θ, y
+)
+    model′ = @set model.y = only(y)
+    step(rng, model′, kernel, θ)
+end
+nothing</code></pre><p>Let&#39;s check that the implementation is correct by </p><pre><code class="language-julia hljs">model = Model(1., 1.)
+kernel = Gibbs()
+test = TwoSampleTest(100, 100)
+subject = TestSubject(model, kernel)
+seqmcmctest(test, subject, 0.0001, 100; show_progress=false)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">true</code></pre><p><code>true</code> means that the tests have passed. Now, let&#39;s consider two erroneous implementations:</p><pre><code class="language-julia hljs">struct GibbsWrongMean end
+
+function step(rng::Random.AbstractRNG, model::Model, ::GibbsWrongMean, θ)
+    y = model.y
+    σ = model.σ
+    rand(rng, MvNormal([y], σ/2))
+end
+
+struct GibbsWrongVar end
+
+function step(rng::Random.AbstractRNG, model::Model, ::GibbsWrongVar, θ)
+    y = model.y
+    σ = model.σ
+    rand(rng, MvNormal([y/2], 2*σ))
+end
+nothing</code></pre><p>The kernel with a wrong mean fails:</p><pre><code class="language-julia hljs">kernel = GibbsWrongMean()
+subject = TestSubject(model, kernel)
+seqmcmctest(test, subject, 0.0001, 100; show_progress=false)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">false</code></pre><p>and so does the one with the wrong variance:</p><pre><code class="language-julia hljs">kernel = GibbsWrongVar()
+subject = TestSubject(model, kernel)
+seqmcmctest(test, subject, 0.0001, 100; show_progress=false)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">false</code></pre><h2 id="Visualizing-the-ranks"><a class="docs-heading-anchor" href="#Visualizing-the-ranks">Visualizing the ranks</a><a id="Visualizing-the-ranks-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-ranks" title="Permalink"></a></h2></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../introduction/">« MCMCTesting</a><a class="docs-footer-nextpage" href="../general/">General Usage »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.2 on <span class="colophon-date" title="Thursday 16 November 2023 19:22">Thursday 16 November 2023</span>. Using Julia version 1.6.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
