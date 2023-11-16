@@ -1,4 +1,4 @@
-name: Doc Preview Cleanup
+name: Documentation
 
 on:
   pull_request:
