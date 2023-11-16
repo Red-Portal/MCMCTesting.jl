@@ -1,5 +1,5 @@
 
-# [Getting Started](@id tutorial)
+# [Tutorial](@id tutorial)
 
 ## Problem Setup
 Let's consider a simple Normal-Normal model with a shared scale:
