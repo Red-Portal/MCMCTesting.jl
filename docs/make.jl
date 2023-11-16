@@ -25,6 +25,4 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/Red-Portal/MCMCTesting.jl",
-    push_preview=true,
-    devbranch="main",
 )
