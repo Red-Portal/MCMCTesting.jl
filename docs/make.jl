@@ -5,7 +5,7 @@ DocMeta.setdocmeta!(MCMCTesting, :DocTestSetup, :(using MCMCTesting); recursive=
 
 makedocs(;
     modules=[MCMCTesting],
-    authors="Ray Kim <msca8h@naver.com> and contributors",
+    authors="Kyurae Kim <kyrkim@seas.upenn.edu> and contributors",
     repo="https://github.com/Red-Portal/MCMCTesting.jl/blob/{commit}{path}#{line}",
     sitename="MCMCTesting.jl",
     format=Documenter.HTML(;
@@ -15,11 +15,16 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md",
+        "MCMCTesting"       => "introduction.md",
+        "Getting Started"   => "example.md",
+        "Two-Sample Tests"  => "twosampletest.md",
+        "Exact Rank Tests"  => "exactranktest.md",
+        "API"               => "index.md",
     ],
 )
 
 deploydocs(;
     repo="github.com/Red-Portal/MCMCTesting.jl",
+    push_preview=true,
     devbranch="main",
 )

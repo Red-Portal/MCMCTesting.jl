@@ -5,6 +5,37 @@ struct ExactRankTest <: AbstractMCMCTest
     n_mcmc_thin ::Int
 end
 
+"""
+    ExactRankTest(n_samples, n_mcmc_steps; n_mcmc_thin)
+
+Exact rank hypothesis testing strategy for reversible MCMC kernels. Algorithm 2 in Gandy & Scott 2021.
+
+# Arguments
+- `n_samples::Int`: Number of ranks to be simulated.
+- `n_mcmc_steps::Int`: Number of MCMC states to be simulated for simulating a single rank.
+- `n_mcmc_thin::Int`: Number of thinning applied to the MCMC chain.
+
+# Returns
+- `pvalues`: P-value computed for each dimension of the statistic returned from `statistics`.
+
+# Requirements
+This test requires the following functions for `model` and `kernel` to be implemented:
+- `markovchain_transition`
+- `sample_joint`
+Furthermore, this test explicitly assumes the following
+- `kernel` is reversible.
+Applying this tests to an irreversible `kernel` will result in false negatives even if its stationary distribution is correct.
+
+# Keyword Arguments for Tests
+When calling `mcmctest` or `seqmcmctest`, this tests has an additional keyword argument:
+- `uniformity_test_pvalue`: The p-value calculation strategy.
+The default strategy is an \$\\chi^2\$ test. Any function returning a single p-value from a uniformity hypothesis test will work. The format is as follows:
+```julia
+uniformity_test_pvalue(x::AbstractVector)::Real
+```
+
+# References 
+"""
 function ExactRankTest(
     n_samples   ::Int,
     n_mcmc_steps::Int;
@@ -100,13 +131,6 @@ function simulate_ranks(
     simulate_ranks(Random.default_rng(), test,subject; statistics, show_progress)
 end
 
-"""
-# Exact Rank Test 
-
-Algorithm 2 in Gandy & Scott 2021.
-
-Assumes that the mcmc kernel is reversible.
-"""
 function mcmctest(
     rng    ::Random.AbstractRNG,
     test   ::ExactRankTest,
