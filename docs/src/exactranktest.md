@@ -2,7 +2,6 @@
 # [Exact Rank Hypothesis Tests](@id exactrank)
 
 ## Introduction
-
 The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^gandyandscott2021].
 
 ## `ExactRankTest`
@@ -32,5 +31,5 @@ If the sampler and the model are correct, the rank has an uniform distribution a
 ExactRankTest
 ```
 
-# References
+## References
 [^gandyandscott2021]: Gandy, A., & Scott, J. (2020). Unit testing for MCMC and other Monte Carlo methods. arXiv preprint arXiv:2001.06465.

@@ -1,5 +1,5 @@
 
-# Getting Started
+# [Getting Started](@id tutorial)
 
 ## Problem Setup
 Let's consider a simple Normal-Normal model with a shared scale:
@@ -8,7 +8,6 @@ Let's consider a simple Normal-Normal model with a shared scale:
 \theta &\sim \mathrm{normal}\left(0,   \sigma^2\right) \\
 y      &\sim \mathrm{normal}\left(\mu, \sigma^2\right)
 \end{aligned}
-nothing
 ```
 
 The joint log-likelihood can be implemented as follows:

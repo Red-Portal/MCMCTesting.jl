@@ -102,7 +102,6 @@ For example, for the two-sample test strategies, if we only want to use `θ` for
 ```julia
 statistics = params -> θ[1:d]
 ```
-
 """
 function mcmctest end
 

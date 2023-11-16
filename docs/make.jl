@@ -15,11 +15,11 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "MCMCTesting"       => "introduction.md",
-        "Getting Started"   => "example.md",
-        "Two-Sample Tests"  => "twosampletest.md",
-        "Exact Rank Tests"  => "exactranktest.md",
-        "API"               => "index.md",
+        "MCMCTesting"        => "introduction.md",
+        "Getting Started"    => "example.md",
+        "General Usage"      => "general.md",
+        "Two-Sample Tests"   => "twosampletest.md",
+        "Exact Rank Tests"   => "exactranktest.md",
     ],
 )
 

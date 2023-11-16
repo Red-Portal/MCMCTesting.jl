@@ -1,11 +1,11 @@
 
-# [Two Sample Hypothesis Tests](@id twosample)
+# Two Sample Hypothesis Tests
 
 ## Introduction
 
 The two-sample hypothesis testing strategies are based on Algorithm 1 by Gandy & Scott (2021)[^gandyandscott2021].
 
-## `TwoSampleTest`
+## [`TwoSampleTest`](@id twosample)
 The first basic strategy generates the **treatment group**
 ```math
 \begin{aligned}
@@ -30,7 +30,7 @@ where the test compares
 TwoSampleTest
 ```
 
-## `TwoSampleGibbsTest`
+## [`TwoSampleGibbsTest`](@id twosamplegibbs)
 The second strategy performs applies an additional Gibbs sampling step when generating the **treatment group**  as
 ```math
 \begin{aligned}
@@ -45,9 +45,14 @@ resulting in the treatment group
 ```
 The control group is generated the same as `TwoSampleTest`.
 
+To use this test, the user needs to implement the following interface for simulating from the conditional likelihood.
+```@docs
+sample_predictive
+```
+
 ```@docs
 TwoSampleGibbsTest
 ```
 
-# References
+## References
 [^gandyandscott2021]: Gandy, A., & Scott, J. (2020). Unit testing for MCMC and other Monte Carlo methods. arXiv preprint arXiv:2001.06465.

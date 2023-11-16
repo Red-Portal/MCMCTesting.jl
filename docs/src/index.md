@@ -9,6 +9,6 @@ Documentation for [MCMCTesting](https://github.com/Red-Portal/MCMCTesting.jl).
 ```@index
 ```
 
-```@autodocs
-Modules = [MCMCTesting]
-```
+#```@autodocs
+#Modules = [MCMCTesting]
+#```
