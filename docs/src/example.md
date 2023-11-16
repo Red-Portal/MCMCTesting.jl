@@ -33,7 +33,7 @@ struct Gibbs end
 
 function step(rng::Random.AbstractRNG, model::Model, ::Gibbs, θ)
     y = model.y
-	σ = model.σ
+    σ = model.σ
     rand(rng, MvNormal([y]/2, σ))
 end
 nothing
@@ -45,7 +45,7 @@ struct RWMH
 end
 
 function step(rng::Random.AbstractRNG, model::Model, kernel::RWMH, θ)
-	σ = kernel.σ
+    σ = kernel.σ
     θ′ = rand(rng, MvNormal(θ, σ))
     ℓπ = logdensity(model, θ)
     ℓπ′ = logdensity(model, θ′)
@@ -66,7 +66,7 @@ This is done by as follows:
 using MCMCTesting
 
 function MCMCTesting.sample_joint(rng::Random.AbstractRNG, model::Model)
-	σ = model.σ
+    σ = model.σ
     θ = rand(rng, Normal(0, σ))
     y = rand(rng, Normal(θ, σ))
     [θ], [y]
@@ -82,7 +82,7 @@ using Accessors
 function MCMCTesting.markovchain_transition(
     rng::Random.AbstractRNG, model::Model, kernel, θ, y
 )
-	model′ = @set model.y = only(y)
+    model′ = @set model.y = only(y)
     step(rng, model′, kernel, θ)
 end
 nothing
@@ -104,7 +104,7 @@ struct GibbsWrongMean end
 
 function step(rng::Random.AbstractRNG, model::Model, ::GibbsWrongMean, θ)
     y = model.y
-	σ = model.σ
+    σ = model.σ
     rand(rng, MvNormal([y], σ/2))
 end
 
@@ -112,7 +112,7 @@ struct GibbsWrongVar end
 
 function step(rng::Random.AbstractRNG, model::Model, ::GibbsWrongVar, θ)
     y = model.y
-	σ = model.σ
+    σ = model.σ
     rand(rng, MvNormal([y/2], 2*σ))
 end
 nothing
