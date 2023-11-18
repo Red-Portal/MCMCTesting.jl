@@ -14,6 +14,13 @@ export
     simulate_ranks,
     rankplot
 
+using HypothesisTests
+using MultipleTesting
+using ProgressMeter
+using Random
+using StatsBase
+
+
 """
     sample_joint(rng, model)
 
