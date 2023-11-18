@@ -11,13 +11,8 @@ export
     markovchain_transition,
     mcmctest,
     seqmcmctest,
-    simulate_ranks
-
-using StatsBase
-using Random
-using HypothesisTests
-using ProgressMeter
-using MultipleTesting
+    simulate_ranks,
+    rankplot
 
 """
     sample_joint(rng, model)
@@ -135,4 +130,20 @@ include("twosampletest.jl")
 include("exactranktest.jl")
 include("seqtest.jl")
 
+struct RankSimulationResult{Ranks}
+    ranks::Ranks
+    test::ExactRankTest
+end
+
+if !isdefined(Base, :get_extension)
+    using Requires
+end
+
+@static if !isdefined(Base, :get_extension)
+    function __init__()
+        @require Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80" begin
+            include("../ext/MCMCTestingPlotsExt.jl")
+        end
+    end
+end
 end
