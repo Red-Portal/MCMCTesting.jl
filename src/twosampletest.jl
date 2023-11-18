@@ -9,7 +9,7 @@ end
 """
     TwoSampleTest(n_samples, n_mcmc_steps; n_control, n_treatment, n_mcmc_thin)
 
-Two-sample hypothesis testing strategy. Algorithm 1 in Gandy & Scott 2021.
+Two-sample hypothesis testing strategy. Algorithm 1 in Gandy & Scott (2021).
 
 # Arguments
 - `n_samples::Int`: Number of samples from the joint `p(θ, y)` used for the computing the p-values.
@@ -35,8 +35,6 @@ The default strategy is an approximate two-sample Kolmogorov-Smirnov test. Any f
 ```julia
 two_sample_test_pvalue(x::AbstractVector, y::AbstractVector)::Real
 ```
-
-# References 
 """
 function TwoSampleTest(
     n_samples   ::Int,

@@ -2,7 +2,7 @@
 # [Exact Rank Hypothesis Tests](@id exactrank)
 
 ## Introduction
-The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^gandyandscott2021].
+The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^gs2021].
 
 ## `ExactRankTest`
 The ranks are computed by simulating a single Markov chain backwards and forward.
@@ -32,4 +32,4 @@ ExactRankTest
 ```
 
 ## References
-[^gandyandscott2021]: Gandy, A., & Scott, J. (2020). Unit testing for MCMC and other Monte Carlo methods. arXiv preprint arXiv:2001.06465.
+[^GS2021]: Gandy, A., & Scott, J. (2020). Unit testing for MCMC and other Monte Carlo methods. arXiv preprint arXiv:2001.06465.

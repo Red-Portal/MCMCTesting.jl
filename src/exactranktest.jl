@@ -8,7 +8,7 @@ end
 """
     ExactRankTest(n_samples, n_mcmc_steps; n_mcmc_thin)
 
-Exact rank hypothesis testing strategy for reversible MCMC kernels. Algorithm 2 in Gandy & Scott 2021.
+Exact rank hypothesis testing strategy for reversible MCMC kernels. Algorithm 2 in Gandy & Scott (2021).
 
 # Arguments
 - `n_samples::Int`: Number of ranks to be simulated.
@@ -33,8 +33,6 @@ The default strategy is an \$\\chi^2\$ test. Any function returning a single p-v
 ```julia
 uniformity_test_pvalue(x::AbstractVector)::Real
 ```
-
-# References 
 """
 function ExactRankTest(
     n_samples   ::Int,
