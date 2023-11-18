@@ -2,7 +2,7 @@
 # [Exact Rank Hypothesis Tests](@id exactrank)
 
 ## Introduction
-The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^gs2021].
+The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^GS2021].
 
 ## `ExactRankTest`
 The ranks are computed by simulating a single Markov chain backwards and forward.
