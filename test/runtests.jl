@@ -3,6 +3,8 @@ using Distributions
 using Random
 using Test
 using StableRNGs
+using Plots
+unicodeplots()
 
 using MCMCTesting
 
@@ -80,6 +82,19 @@ include("models/normalnormalgibbs.jl")
         @test all(@. 1 ≤ ranks ≤ n_samples)
         @test eltype(ranks) <: Integer
         @test size(ranks) == (2*2, n_samples)
+    end
+
+    @testset "rank visualization" begin
+        test  = ExactRankTest(n_samples, n_samples)
+        ranks = simulate_ranks(test, subject; show_progress=false)
+
+        @testset  "default arguments" begin
+            plot(ranks, test)
+        end
+
+        @testset  "custom param names" begin
+            plot(ranks, test; param_names=["test$(idx)" for idx in size(ranks, 1)])
+        end
     end
 end
 

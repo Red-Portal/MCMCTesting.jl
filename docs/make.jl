@@ -14,11 +14,12 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home"             => "index.md",
-        "Tutorial"         => "example.md",
-        "General Usage"    => "general.md",
-        "Two-Sample Tests" => "twosampletest.md",
-        "Exact Rank Tests" => "exactranktest.md",
+        "Home"              => "index.md",
+        "Tutorial"          => "example.md",
+        "General Usage"     => "general.md",
+        "Two-Sample Tests"  => "twosampletest.md",
+        "Exact Rank Tests"  => "exactranktest.md",
+        "Visualizing Ranks" => "ranksim.md",
     ],
 )
 

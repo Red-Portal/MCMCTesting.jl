@@ -11,8 +11,7 @@ export
     markovchain_transition,
     mcmctest,
     seqmcmctest,
-    simulate_ranks,
-    rankplot
+    simulate_ranks
 
 using HypothesisTests
 using MultipleTesting
@@ -121,7 +120,9 @@ struct TestSubject{M, K}
     kernel::K
 end
 
+
 abstract type AbstractMCMCTest end
+
 
 function markovchain_multiple_transition(
     rng::Random.AbstractRNG, model, kernel, n_steps::Int, θ, y
@@ -136,11 +137,6 @@ include("defaults.jl")
 include("twosampletest.jl")
 include("exactranktest.jl")
 include("seqtest.jl")
-
-struct RankSimulationResult{Ranks}
-    ranks::Ranks
-    test::ExactRankTest
-end
 
 if !isdefined(Base, :get_extension)
     using Requires

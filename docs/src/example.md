@@ -193,8 +193,9 @@ test = ExactRankTest(1000, 30, 10)
 rank_correct = simulate_ranks(test, TestSubject(model, Gibbs()); show_progress=false)
 rank_wrong = simulate_ranks(test, TestSubject(model, GibbsWrongVar()); show_progress=false)
 
-plot(rank_wrong[1:1,:],    test, alpha=0.3)
-plot!(rank_correct[1:1,:], test, alpha=0.3)
+param_names = ["θ1 mean", "θ2 mean", "θ1 var", "θ2 var"]
+plot(rank_wrong,    test; param_names)
+plot!(rank_correct, test; param_names)
 savefig("rankplot.svg")
 nothing
 ```
