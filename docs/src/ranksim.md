@@ -10,10 +10,11 @@ For more information, refer to the documentation for the [exact rank test](@ref 
 simulate_ranks
 ```
 
-## Visualizing Ranks
+## Visualizing Ranks with `Plots`
 We provide a `Plots` recipe for visualizing the ranks:
-```@docs
-MCMCTesting.plotranks
+
+```docs
+rankplot
 ```
 
 This can be used as follows:
@@ -24,10 +25,9 @@ using MCMCTesting
 # Set up the simulation
 
 ranks = simulate_ranks(test, subject)
-plot(ranks, test; param_names)
+rankplot(test, ranks; param_names)
 ```
 Also refer to the [tutorial](@ref tutorial) for a working example.
-
 
 ## References
 [^GS2021]: Gandy, A., & Scott, J. (2020). Unit testing for MCMC and other Monte Carlo methods. arXiv preprint arXiv:2001.06465.

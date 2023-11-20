@@ -28,13 +28,13 @@ The `model` and `kernel` are then passed to `MCMCTesting` through the following 
 TestSubject
 ```
 
-## Simulating a P-Value Through `mcmctest`
+## Simulating a P-Value with `mcmctest`
 Each of the test internally run simulations and compute a single p-value through the following routine:
 ```@docs
 mcmctest
 ```
 
-## Increasing Power Through `seqmcmctest`
+## Increasing Power with `seqmcmctest`
 `seqmcmctest` (Algorithm 3[^gandyandscott2021]) sequentially calls `mcmctest` to increase the power and ensure a low false rejection rate.
 Furthermore, the p-values from each component of the statistics are combined through multiple hypothesis adjustment.
 

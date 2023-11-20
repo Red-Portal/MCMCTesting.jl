@@ -89,11 +89,11 @@ include("models/normalnormalgibbs.jl")
         ranks = simulate_ranks(test, subject; show_progress=false)
 
         @testset  "default arguments" begin
-            plot(ranks, test)
+            rankplot(test, ranks)
         end
 
         @testset  "custom param names" begin
-            plot(ranks, test; param_names=["test$(idx)" for idx in size(ranks, 1)])
+            rankplot(test, ranks; param_names=["test$(idx)" for idx in size(ranks, 1)])
         end
     end
 end

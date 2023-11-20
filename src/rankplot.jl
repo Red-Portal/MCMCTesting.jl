@@ -1,28 +1,27 @@
 
-module MCMCTestingPlotsExt
-
-if isdefined(Base, :get_extension)
-    using Plots
-    using MCMCTesting
-else
-    using ..Plots
-    using ..MCMCTesting
-end
-
 """
-    plotranks(ranks, test; kwargs...)
+    rankplot(test, ranks; kwargs...)
 
-`Plots` recipe for plotting the simulated ranks from `simulate_ranks`.
-`Plots` must be imported *before* `MCMCTesting` to use this plot recipe.
+Plot the simulated ranks using `simulate_ranks`.
+
+!!! info
+    `Plots` must be imported *before* `MCMCTesting` to use this plot recipe.
 
 # Arguments
-- ranks: The output of `simulate_rank`.
 - test::ExactRankTest: The exact rank test object used to simulate the ranks.
+- ranks: The output of `simulate_rank`.
 
 # Keyword Arguments
 - stats_names: The name for the statistics used in the rank simulation. The default argument automatically assign default names. (Default: :auto). 
+- Keyword arguments corresponding `Plots` attributes, such as `bins`, `layout`, `size`, may apply.
 """
-@recipe function plotranks(ranks, test::ExactRankTest; stat_names=:auto)
+@userplot RankPlot
+@recipe function f(h::RankPlot; stat_names = :auto)
+    if length(h.args) != 2 || !(typeof(h.args[1]) <: ExactRankTest)
+        error("rankplot should be given a `<: ExctRankTest` as first argument. Got: $(typeof(h.args)).")
+    end
+    test, ranks = h.args
+
     n_max_rank = test.n_mcmc_steps
     n_samples  = test.n_samples
     binprob    = 1/n_max_rank
@@ -92,5 +91,4 @@ end
             [n_samples/n_max_rank]
         end
     end
-end
 end

@@ -194,8 +194,8 @@ rank_correct = simulate_ranks(test, TestSubject(model, Gibbs()); show_progress=f
 rank_wrong = simulate_ranks(test, TestSubject(model, GibbsWrongVar()); show_progress=false)
 
 param_names = ["θ1 mean", "θ2 mean", "θ1 var", "θ2 var"]
-plot(rank_wrong,    test; param_names)
-plot!(rank_correct, test; param_names)
+rankplot(test, rank_wrong; param_names)
+rankplot!(test, rank_correct; param_names)
 savefig("rankplot.svg")
 nothing
 ```
