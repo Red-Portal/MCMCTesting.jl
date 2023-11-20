@@ -1,5 +1,6 @@
 
-"""
+@userplot RankPlot
+@doc """
     rankplot(test, ranks; kwargs...)
 
 Plot the simulated ranks using `simulate_ranks`.
@@ -14,10 +15,7 @@ Plot the simulated ranks using `simulate_ranks`.
 # Keyword Arguments
 - `stats_names`: The name for the statistics used in the rank simulation. The default argument automatically assign default names. (Default: :auto). 
 - Keyword arguments corresponding `Plots` attributes, such as `bins`, `layout`, `size`, may apply.
-"""
-function rankplot end
-
-@userplot RankPlot
+""" rankplot
 @recipe function f(h::RankPlot; stat_names = :auto)
     if length(h.args) != 2 || !(typeof(h.args[1]) <: ExactRankTest)
         error("rankplot should be given a `<: ExctRankTest` as first argument. Got: $(typeof(h.args)).")
