@@ -12,7 +12,7 @@ export
     mcmctest,
     seqmcmctest,
     simulate_ranks,
-    RankPlot
+    rankplot
 
 using HypothesisTests
 using MultipleTesting

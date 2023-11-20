@@ -13,7 +13,7 @@ simulate_ranks
 ## Visualizing Ranks with `Plots`
 We provide a `Plots` recipe for visualizing the ranks:
 
-```docs
+```@docs
 rankplot
 ```
 
@@ -22,7 +22,7 @@ This can be used as follows:
 using Plots
 using MCMCTesting
 
-# Set up the simulation
+# Set the simulation here
 
 ranks = simulate_ranks(test, subject)
 rankplot(test, ranks; param_names)

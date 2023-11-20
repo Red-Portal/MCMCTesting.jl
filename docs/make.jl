@@ -5,12 +5,7 @@ using Plots
 DocMeta.setdocmeta!(MCMCTesting, :DocTestSetup, :(using MCMCTesting); recursive=true)
 
 makedocs(;
-    modules=[
-        MCMCTesting,
-        isdefined(Base, :get_extension) ?
-            Base.get_extension(MCMCTesting, :MCMCTestingPlotsExt) :
-            RecipesBase.apply_recipe
-    ],
+    modules=[MCMCTesting,],
     repo="https://github.com/Red-Portal/MCMCTesting.jl/blob/{commit}{path}#{line}",
     sitename="MCMCTesting.jl",
     format=Documenter.HTML(;
