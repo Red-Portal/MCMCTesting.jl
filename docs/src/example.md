@@ -186,19 +186,24 @@ function step(rng::Random.AbstractRNG, model::Model, ::GibbsWrongVar, θ)
 end
 nothing
 ```
-Then, we can simulate the ranks and then plot them using `Plots.
+Then, we can simulate the ranks and then plot them using `Plots`.
 ```@example started
 test = ExactRankTest(1000, 30, 10)
 
 rank_correct = simulate_ranks(test, TestSubject(model, Gibbs()); show_progress=false)
 rank_wrong = simulate_ranks(test, TestSubject(model, GibbsWrongVar()); show_progress=false)
 
-param_names = ["θ1 mean", "θ2 mean", "θ1 var", "θ2 var"]
-rankplot(test, rank_wrong; param_names)
-rankplot!(test, rank_correct; param_names)
+stat_names = ["θ1 mean correct", "θ2 mean correct", "θ1 var correct", "θ2 var correct"]
+rankplot(test, rank_correct; stat_names)
+
+stat_names = ["θ1 mean wrong", "θ2 mean wrong", "θ1 var wrong", "θ2 var wrong"]
+rankplot!(test, rank_wrong; stat_names)
+
 savefig("rankplot.svg")
 nothing
 ```
 ![](rankplot.svg)
 
-We can see that the ranks of the erroneous kernel are not uniform.
+If the MCMC kernel under test is reversible and correct, the ranks must resemble samples from a uniform distribution.
+The colored bands around black line show the 1σ, 2σ, and 3σ deviations from the null hypothesis.
+Here, we can see that the ranks of the erroneous kernel are not uniform.
