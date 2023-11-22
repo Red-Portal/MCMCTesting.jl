@@ -4,6 +4,8 @@
     rankplot(test, ranks; kwargs...)
 
 Plot the simulated ranks using `simulate_ranks`.
+If the test subjects are correct, the ranks should visually resemble samples from a uniform distribution.
+The black horizontal line shows the average counts of a uniform distribution, while the colored bands are the 1σ, 2σ, 3σ deviations from the mean.
 
 !!! info
     `Plots` must be imported to use this plot recipe.
@@ -34,14 +36,13 @@ Plot the simulated ranks using `simulate_ranks`.
 
     # default two-column layout
     n_params   = size(ranks,1)
-    n_rows     = ceil(Int,n_params/2)
-    size       --> (300*2, 200*n_rows)
-    layout     --> (n_rows,2)
+    size       --> (300, 200*n_params)
+    layout     --> (n_params,1)
 
     for (idx, ranks_param) in enumerate(eachrow(ranks))
         stat_name = if stat_names isa Symbol && stat_names == :auto
             "θ$(idx)"
-        elseif stat_names isa AbstractVector && length(stat_names) == size(ranks,1)
+        elseif stat_names isa AbstractVector && length(stat_names) == n_params
             string.(stat_names[idx])
         else
             error("A custom list of parameter names must be an <: AbstractVector " *

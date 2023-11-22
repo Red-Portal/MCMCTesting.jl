@@ -1,6 +1,6 @@
 name = "MCMCTesting"
 uuid = "9963b6a1-5d46-439c-8efc-3a487843c7fa"
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 HypothesisTests = "09f84164-cd44-5f33-b23f-e6b0d136a0d5"
