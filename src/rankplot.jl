@@ -30,7 +30,7 @@ The black horizontal line shows the density of a uniform distribution, while the
     n_samples   = test.n_samples
 
     xguide     --> "Rank"
-    yguide     --> "Count"
+    yguide     --> "Density"
     xlims      --> [1,n_max_rank]
     ylims      --> [0, Inf]
     bins       --> 0:1:n_max_rank
