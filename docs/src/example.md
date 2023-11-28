@@ -188,7 +188,7 @@ nothing
 ```
 Then, we can simulate the ranks and then plot them using `Plots`.
 ```@example started
-test = ExactRankTest(1000, 30, 10)
+test = ExactRankTest(10000, 30, 10)
 
 rank_correct = simulate_ranks(test, TestSubject(model, Gibbs()); show_progress=false)
 rank_wrong = simulate_ranks(test, TestSubject(model, GibbsWrongVar()); show_progress=false)

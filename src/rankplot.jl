@@ -5,7 +5,10 @@
 
 Plot the simulated ranks using `simulate_ranks`.
 If the test subjects are correct, the ranks should visually resemble samples from a uniform distribution.
-The black horizontal line shows the average counts of a uniform distribution, while the colored bands are the 1σ, 2σ, 3σ deviations from the mean.
+The black horizontal line shows the density of a uniform distribution, while the colored bands are the 1σ, 2σ, 3σ deviations.
+
+!!! info
+    The deviation bands assume uniform bin sizes.
 
 !!! info
     `Plots` must be imported to use this plot recipe.
@@ -26,18 +29,21 @@ The black horizontal line shows the average counts of a uniform distribution, wh
 
     n_max_rank = test.n_mcmc_steps
     n_samples  = test.n_samples
-    binprob    = 1/n_max_rank
-    binstd     = sqrt((1 - binprob)*(binprob)*n_samples)
+
     xguide     --> "Rank"
     yguide     --> "Count"
     xlims      --> [1,n_max_rank]
-    bins       --> 1:1:n_max_rank
+    ylims      --> [0, Inf]
+    bins       --> 0:1:n_max_rank
     fillalpha  --> 0.2
+
+    binprob    = 1/n_max_rank
+    binstd     = sqrt((1 - binprob)*(binprob))/n_max_rank
 
     # default two-column layout
     n_params   = size(ranks,1)
-    size       --> (300, 200*n_params)
-    layout     --> (n_params,1)
+    size     --> (300, 200*n_params)
+    layout   --> (n_params,1)
 
     for (idx, ranks_param) in enumerate(eachrow(ranks))
         stat_name = if stat_names isa Symbol && stat_names == :auto
@@ -55,6 +61,7 @@ The black horizontal line shows the average counts of a uniform distribution, wh
             fillcolor   := :match
             linecolor   := :match
             linealpha   := 1.0
+            normalize   := true
             seriestype  := :stephist
             ranks_param
         end
@@ -67,7 +74,7 @@ The black horizontal line shows the average counts of a uniform distribution, wh
             fillalpha  := 0.1
             color      := :black
             ribbon --> [binstd,binstd]
-            [n_samples/n_max_rank]
+            [1/n_max_rank]
         end
         # 2σ confidence interval
         @series begin
@@ -78,7 +85,7 @@ The black horizontal line shows the average counts of a uniform distribution, wh
             fillalpha  := 0.05
             color      := :black
             ribbon --> [2*binstd,2*binstd]
-            [n_samples/n_max_rank]
+            [1/n_max_rank]
         end
         # 2σ confidence interval
         @series begin
@@ -89,7 +96,7 @@ The black horizontal line shows the average counts of a uniform distribution, wh
             fillalpha  := 0.025
             color      := :black
             ribbon --> [3*binstd,3*binstd]
-            [n_samples/n_max_rank]
+            [1/n_max_rank]
         end
     end
 end
