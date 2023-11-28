@@ -5,10 +5,10 @@
 
 Plot the simulated ranks using `simulate_ranks`.
 If the test subjects are correct, the ranks should visually resemble samples from a uniform distribution.
-The black horizontal line shows the density of a uniform distribution, while the colored bands are the 1σ, 2σ, 3σ deviations.
+The black horizontal line shows the density of a uniform distribution, while the colored bands are the 1σ, 2σ, 3σ confidence intervals.
 
 !!! info
-    The deviation bands assume uniform bin sizes.
+    The confidence intervals are derived from the normal approximation of binomials observations and assume uniformly-sized bins.
 
 !!! info
     `Plots` must be imported to use this plot recipe.
@@ -26,9 +26,8 @@ The black horizontal line shows the density of a uniform distribution, while the
         error("rankplot should be given a `<: ExctRankTest` as first argument. Got: $(typeof(h.args)).")
     end
     test, ranks = h.args
-
-    n_max_rank = test.n_mcmc_steps
-    n_samples  = test.n_samples
+    n_max_rank  = test.n_mcmc_steps
+    n_samples   = test.n_samples
 
     xguide     --> "Rank"
     yguide     --> "Count"
@@ -38,7 +37,7 @@ The black horizontal line shows the density of a uniform distribution, while the
     fillalpha  --> 0.2
 
     binprob    = 1/n_max_rank
-    binstd     = sqrt((1 - binprob)*(binprob))/n_max_rank
+    binstd     = sqrt((1 - binprob)*binprob/n_samples)
 
     # default two-column layout
     n_params   = size(ranks,1)
