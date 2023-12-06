@@ -24,7 +24,20 @@ This test requires the following functions for `model` and `kernel` to be implem
 - `sample_joint`
 Furthermore, this test explicitly assumes the following
 - `kernel` is reversible.
-Applying this tests to an irreversible `kernel` will result in false negatives even if its stationary distribution is correct.
+
+For reference, the following kernels are reversible:
+- Any Metropolis-Hastings kernel
+- slice samplers
+- Hamiltonian Monte Carlo/No-U-Turn Samplers with resampling over the trajectory
+- random-scan/permutation-scan Gibbs samplers
+- Unadjusted Langevin
+However, the following kernels are not reversible:
+- Hamiltonian Monte Carlo with persistent momentum (a.k.a Horowitz's method, generalized Hamiltonian Monte Carlo)
+- Systematic-scan Gibbs samplers
+- Piecewise deterministic Markov processes
+
+!!! info
+    Applying this test to an irreversible `kernel` will result in false negatives even if its stationary distribution is correct.
 
 # Keyword Arguments for Tests
 When calling `mcmctest` or `seqmcmctest`, this tests has an additional keyword argument:

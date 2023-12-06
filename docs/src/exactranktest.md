@@ -5,7 +5,7 @@
 The exact rank hypothesis testing strategy is based on Algorithm 2 by Gandy & Scott (2021)[^GS2021].
 
 ## `ExactRankTest`
-The ranks are computed by simulating a single Markov chain backwards and forward.
+The ranks are computed by simulating a single Markov chain backward and forward.
 First, a random midpoint is simulated as
 ```math
 \begin{aligned}
@@ -25,7 +25,7 @@ forming the chain
 \theta_1,\; \ldots, \; \theta_{M},\; \ldots, \; \theta_{L}.
 ```
 The *rank* is the ranking of the statistics of $\theta_{M}$.
-If the sampler and the model are correct, the rank has an uniform distribution as long as the midpoint is independently sampled.
+If the sampler and the model are correct, the rank is uniformly distributed as long as the midpoint is independently sampled.
 
 ```@docs
 ExactRankTest

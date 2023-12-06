@@ -9,8 +9,8 @@ Documentation for [MCMCTesting](https://github.com/Red-Portal/MCMCTesting.jl).
 `MCMCTesting` provides the MCMC testing algorithms developed by Gandy & Scott (2021)[^GS2021].
 These tests can be seen as an improvement of the hypothesis testing approach proposed by Geweke [^G2004].
 Unlike simulation-based calibration (SBC; [^TBSVG2018][^YD2023][^MMKBPBHFGV2022]), these tests are more appropriate for testing the exactness of the MCMC algorithm rather than the identifiability of the models.
-This is because the tests focus on maximizing the power for verify the validity of *individual Markov transitions* instead of a *set of samples*.
-Furthermore, unlike SBC, the approach of Gandy & Scott[^GS2021] is able to exactly satisfy the assumptions required for the theoretical guarantees.
+This is because the tests focus on maximizing the power of verifying the validity of *individual Markov transitions* instead of a *set of samples*.
+Furthermore, unlike SBC, the approach of Gandy & Scott[^GS2021] can exactly satisfy the assumptions required for the theoretical guarantees.
 
 
 ## References
